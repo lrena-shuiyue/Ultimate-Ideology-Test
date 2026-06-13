@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>終極思想流派測試 | 思想版MBTI</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:"微軟正黑體",sans-serif;}
+        body{background:#f4f6f9;color:#333;line-height:1.6;padding:20px;}
+        .container{max-width:900px;margin:0 auto;background:#fff;padding:30px;border-radius:12px;box-shadow:0 2px 15px #0002;}
+        h1{text-align:center;color:#2c3e50;margin-bottom:10px;}
+        .desc{text-align:center;color:#666;margin-bottom:30px;}
+        .section-title{font-size:18px;font-weight:bold;margin:25px 0 15px;color:#34495e;border-left:4px solid #3498db;padding-left:10px;}
+        .question{margin:18px 0;padding:15px;background:#f8f9fa;border-radius:8px;}
+        .q-text{margin-bottom:10px;}
+        .options{display:flex;gap:12px;flex-wrap:wrap;}
+        label{cursor:pointer;padding:6px 12px;border:1px solid #ccc;border-radius:6px;background:#fff;transition:0.2s;}
+        input[type="radio"]{margin-right:5px;}
+        .btn-wrap{text-align:center;margin:30px 0;}
+        button{padding:12px 30px;font-size:16px;border:none;border-radius:8px;background:#3498db;color:#fff;cursor:pointer;transition:0.3s;}
+        button:hover{background:#2980b9;}
+        .result{display:none;margin-top:40px;padding:25px;background:#ecf0f1;border-radius:10px;}
+        .code-box{text-align:center;font-size:24px;font-weight:bold;color:#e74c3c;margin:15px 0;letter-spacing:4px;}
+        .chart-box{width:100%;max-width:600px;margin:30px auto;}
+        .analysis{margin-top:20px;padding:20px;background:#fff;border-radius:8px;}
+        .hide{display:none;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>終極思想流派測試</h1>
+        <p class="desc">測出你的專屬思想人格｜涵蓋東方哲學、西方哲學、現代政治主義</p>
+
+        <div id="quiz">
+            <!-- 維度1：理想 U / 現實 R -->
+            <div class="section-title">維度一：理想主義 VS 現實主義</div>
+            <div class="question" data-dim="0">
+                <p class="q-text">1. 人類社會可以透過改造，建立完美公平的體制。</p>
+                <div class="options">
+                    <label><input type="radio" name="q0" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q0" value="4"> 同意</label>
+                    <label><input type="radio" name="q0" value="3"> 中立</label>
+                    <label><input type="radio" name="q0" value="2"> 反對</label>
+                    <label><input type="radio" name="q0" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="0">
+                <p class="q-text">2. 所有制度都有缺陷，務實改善遠比空想重要。</p>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q1" value="2"> 同意</label>
+                    <label><input type="radio" name="q1" value="3"> 中立</label>
+                    <label><input type="radio" name="q1" value="4"> 反對</label>
+                    <label><input type="radio" name="q1" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="0">
+                <p class="q-text">3. 為了長遠理想，可以接受短期犧牲。</p>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q2" value="4"> 同意</label>
+                    <label><input type="radio" name="q2" value="3"> 中立</label>
+                    <label><input type="radio" name="q2" value="2"> 反對</label>
+                    <label><input type="radio" name="q2" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="0">
+                <p class="q-text">4. 政治應以現實利益為優先，而非抽象理想。</p>
+                <div class="options">
+                    <label><input type="radio" name="q3" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q3" value="2"> 同意</label>
+                    <label><input type="radio" name="q3" value="3"> 中立</label>
+                    <label><input type="radio" name="q3" value="4"> 反對</label>
+                    <label><input type="radio" name="q3" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="0">
+                <p class="q-text">5. 烏托邦即使難以實現，仍是值得追尋的目標。</p>
+                <div class="options">
+                    <label><input type="radio" name="q4" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q4" value="4"> 同意</label>
+                    <label><input type="radio" name="q4" value="3"> 中立</label>
+                    <label><input type="radio" name="q4" value="2"> 反對</label>
+                    <label><input type="radio" name="q4" value="1"> 非常反對</label>
+                </div>
+            </div>
+
+            <!-- 維度2：平等 E / 階層 H -->
+            <div class="section-title">維度二：平等主義 VS 階層秩序</div>
+            <div class="question" data-dim="1">
+                <p class="q-text">6. 社會應盡力消除差距，人人條件相近才是公平。</p>
+                <div class="options">
+                    <label><input type="radio" name="q5" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q5" value="4"> 同意</label>
+                    <label><input type="radio" name="q5" value="3"> 中立</label>
+                    <label><input type="radio" name="q5" value="2"> 反對</label>
+                    <label><input type="radio" name="q5" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="1">
+                <p class="q-text">7. 能力與貢獻不同，出現階層差異是自然合理的。</p>
+                <div class="options">
+                    <label><input type="radio" name="q6" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q6" value="2"> 同意</label>
+                    <label><input type="radio" name="q6" value="3"> 中立</label>
+                    <label><input type="radio" name="q6" value="4"> 反對</label>
+                    <label><input type="radio" name="q6" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="1">
+                <p class="q-text">8. 社會需要上下秩序與分工，才能維持穩定。</p>
+                <div class="options">
+                    <label><input type="radio" name="q7" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q7" value="2"> 同意</label>
+                    <label><input type="radio" name="q7" value="3"> 中立</label>
+                    <label><input type="radio" name="q7" value="4"> 反對</label>
+                    <label><input type="radio" name="q7" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="1">
+                <p class="q-text">9. 富人應被課以重稅，用以補助弱勢族群。</p>
+                <div class="options">
+                    <label><input type="radio" name="q8" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q8" value="4"> 同意</label>
+                    <label><input type="radio" name="q8" value="3"> 中立</label>
+                    <label><input type="radio" name="q8" value="2"> 反對</label>
+                    <label><input type="radio" name="q8" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="1">
+                <p class="q-text">10. 過度追求平等，會讓社會失去競爭動力。</p>
+                <div class="options">
+                    <label><input type="radio" name="q9" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q9" value="2"> 同意</label>
+                    <label><input type="radio" name="q9" value="3"> 中立</label>
+                    <label><input type="radio" name="q9" value="4"> 反對</label>
+                    <label><input type="radio" name="q9" value="5"> 非常反對</label>
+                </div>
+            </div>
+
+            <!-- 維度3：自由 L / 權威 A -->
+            <div class="section-title">維度三：個人自由 VS 權威治理</div>
+            <div class="question" data-dim="2">
+                <p class="q-text">11. 個人自由不應被政府與規範過度限制。</p>
+                <div class="options">
+                    <label><input type="radio" name="q10" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q10" value="4"> 同意</label>
+                    <label><input type="radio" name="q10" value="3"> 中立</label>
+                    <label><input type="radio" name="q10" value="2"> 反對</label>
+                    <label><input type="radio" name="q10" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="2">
+                <p class="q-text">12. 社會需要強而有力的權威管理，才不會陷入混亂。</p>
+                <div class="options">
+                    <label><input type="radio" name="q11" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q11" value="2"> 同意</label>
+                    <label><input type="radio" name="q11" value="3"> 中立</label>
+                    <label><input type="radio" name="q11" value="4"> 反對</label>
+                    <label><input type="radio" name="q11" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="2">
+                <p class="q-text">13. 最好的治理方式是減少干預、無為而治。</p>
+                <div class="options">
+                    <label><input type="radio" name="q12" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q12" value="4"> 同意</label>
+                    <label><input type="radio" name="q12" value="3"> 中立</label>
+                    <label><input type="radio" name="q12" value="2"> 反對</label>
+                    <label><input type="radio" name="q12" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="2">
+                <p class="q-text">14. 嚴格的法律與約束，是社會正常運行的基礎。</p>
+                <div class="options">
+                    <label><input type="radio" name="q13" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q13" value="2"> 同意</label>
+                    <label><input type="radio" name="q13" value="3"> 中立</label>
+                    <label><input type="radio" name="q13" value="4"> 反對</label>
+                    <label><input type="radio" name="q13" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="2">
+                <p class="q-text">15. 個人選擇的權利，高於社會既定秩序。</p>
+                <div class="options">
+                    <label><input type="radio" name="q14" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q14" value="4"> 同意</label>
+                    <label><input type="radio" name="q14" value="3"> 中立</label>
+                    <label><input type="radio" name="q14" value="2"> 反對</label>
+                    <label><input type="radio" name="q14" value="1"> 非常反對</label>
+                </div>
+            </div>
+
+            <!-- 維度4：激進 V / 漸進 C -->
+            <div class="section-title">維度四：激進變革 VS 溫和漸進</div>
+            <div class="question" data-dim="3">
+                <p class="q-text">16. 舊體制弊病深重，必須徹底推翻重建。</p>
+                <div class="options">
+                    <label><input type="radio" name="q15" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q15" value="4"> 同意</label>
+                    <label><input type="radio" name="q15" value="3"> 中立</label>
+                    <label><input type="radio" name="q15" value="2"> 反對</label>
+                    <label><input type="radio" name="q15" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="3">
+                <p class="q-text">17. 劇烈的社會變動會帶來災難，逐步改良才是穩妥之路。</p>
+                <div class="options">
+                    <label><input type="radio" name="q16" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q16" value="2"> 同意</label>
+                    <label><input type="radio" name="q16" value="3"> 中立</label>
+                    <label><input type="radio" name="q16" value="4"> 反對</label>
+                    <label><input type="radio" name="q16" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="3">
+                <p class="q-text">18. 社會進步往往需要大膽打破現有規則。</p>
+                <div class="options">
+                    <label><input type="radio" name="q17" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q17" value="4"> 同意</label>
+                    <label><input type="radio" name="q17" value="3"> 中立</label>
+                    <label><input type="radio" name="q17" value="2"> 反對</label>
+                    <label><input type="radio" name="q17" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="3">
+                <p class="q-text">19. 在現有框架內慢慢調整，遠比重建更有效。</p>
+                <div class="options">
+                    <label><input type="radio" name="q18" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q18" value="2"> 同意</label>
+                    <label><input type="radio" name="q18" value="3"> 中立</label>
+                    <label><input type="radio" name="q18" value="4"> 反對</label>
+                    <label><input type="radio" name="q18" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="3">
+                <p class="q-text">20. 任何改變都應循序漸進，不宜操之過急。</p>
+                <div class="options">
+                    <label><input type="radio" name="q19" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q19" value="2"> 同意</label>
+                    <label><input type="radio" name="q19" value="3"> 中立</label>
+                    <label><input type="radio" name="q19" value="4"> 反對</label>
+                    <label><input type="radio" name="q19" value="5"> 非常反對</label>
+                </div>
+            </div>
+
+            <!-- 維度5：個人 I / 集體 G -->
+            <div class="section-title">維度五：個人主義 VS 集體主義</div>
+            <div class="question" data-dim="4">
+                <p class="q-text">21. 個人幸福與自我實現，優先於群體利益。</p>
+                <div class="options">
+                    <label><input type="radio" name="q20" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q20" value="4"> 同意</label>
+                    <label><input type="radio" name="q20" value="3"> 中立</label>
+                    <label><input type="radio" name="q20" value="2"> 反對</label>
+                    <label><input type="radio" name="q20" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="4">
+                <p class="q-text">22. 個人應當服從整體，以社會與國家利益為重。</p>
+                <div class="options">
+                    <label><input type="radio" name="q21" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q21" value="2"> 同意</label>
+                    <label><input type="radio" name="q21" value="3"> 中立</label>
+                    <label><input type="radio" name="q21" value="4"> 反對</label>
+                    <label><input type="radio" name="q21" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="4">
+                <p class="q-text">23. 群體和諧與團結，比個人自由更有價值。</p>
+                <div class="options">
+                    <label><input type="radio" name="q22" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q22" value="2"> 同意</label>
+                    <label><input type="radio" name="q22" value="3"> 中立</label>
+                    <label><input type="radio" name="q22" value="4"> 反對</label>
+                    <label><input type="radio" name="q22" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="4">
+                <p class="q-text">24. 社會不應該為了群體，犧牲個人的權益。</p>
+                <div class="options">
+                    <label><input type="radio" name="q23" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q23" value="4"> 同意</label>
+                    <label><input type="radio" name="q23" value="3"> 中立</label>
+                    <label><input type="radio" name="q23" value="2"> 反對</label>
+                    <label><input type="radio" name="q23" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="4">
+                <p class="q-text">25. 個人的成就，多半來自集體的培養與支持。</p>
+                <div class="options">
+                    <label><input type="radio" name="q24" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q24" value="2"> 同意</label>
+                    <label><input type="radio" name="q24" value="3"> 中立</label>
+                    <label><input type="radio" name="q24" value="4"> 反對</label>
+                    <label><input type="radio" name="q24" value="5"> 非常反對</label>
+                </div>
+            </div>
+
+            <!-- 維度6：傳統 T / 革新 M -->
+            <div class="section-title">維度六：尊崇傳統 VS 追求革新</div>
+            <div class="question" data-dim="5">
+                <p class="q-text">26. 傳統文化與古人智慧，至今仍有極高參考價值。</p>
+                <div class="options">
+                    <label><input type="radio" name="q25" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q25" value="4"> 同意</label>
+                    <label><input type="radio" name="q25" value="3"> 中立</label>
+                    <label><input type="radio" name="q25" value="2"> 反對</label>
+                    <label><input type="radio" name="q25" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="5">
+                <p class="q-text">27. 舊觀念容易束縛發展，應大膽擁抱新思維。</p>
+                <div class="options">
+                    <label><input type="radio" name="q26" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q26" value="2"> 同意</label>
+                    <label><input type="radio" name="q26" value="3"> 中立</label>
+                    <label><input type="radio" name="q26" value="4"> 反對</label>
+                    <label><input type="radio" name="q26" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="5">
+                <p class="q-text">28. 倫理、禮制與傳統價值，是社會穩定的根基。</p>
+                <div class="options">
+                    <label><input type="radio" name="q27" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q27" value="4"> 同意</label>
+                    <label><input type="radio" name="q27" value="3"> 中立</label>
+                    <label><input type="radio" name="q27" value="2"> 反對</label>
+                    <label><input type="radio" name="q27" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="5">
+                <p class="q-text">29. 時代不斷演變，過往思想已不適用現今社會。</p>
+                <div class="options">
+                    <label><input type="radio" name="q28" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q28" value="2"> 同意</label>
+                    <label><input type="radio" name="q28" value="3"> 中立</label>
+                    <label><input type="radio" name="q28" value="4"> 反對</label>
+                    <label><input type="radio" name="q28" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="5">
+                <p class="q-text">30. 守護傳統，才能守住一個社會的根本。</p>
+                <div class="options">
+                    <label><input type="radio" name="q29" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q29" value="4"> 同意</label>
+                    <label><input type="radio" name="q29" value="3"> 中立</label>
+                    <label><input type="radio" name="q29" value="2"> 反對</label>
+                    <label><input type="radio" name="q29" value="1"> 非常反對</label>
+                </div>
+            </div>
+
+            <!-- 維度7：情感人文 F / 純理性 N -->
+            <div class="section-title">維度七：情感人文 VS 純理性功利</div>
+            <div class="question" data-dim="6">
+                <p class="q-text">31. 治理社會最重要的是人心、道德與仁愛。</p>
+                <div class="options">
+                    <label><input type="radio" name="q30" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q30" value="4"> 同意</label>
+                    <label><input type="radio" name="q30" value="3"> 中立</label>
+                    <label><input type="radio" name="q30" value="2"> 反對</label>
+                    <label><input type="radio" name="q30" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="6">
+                <p class="q-text">32. 社會運作應完全依理性、效率與結果判斷。</p>
+                <div class="options">
+                    <label><input type="radio" name="q31" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q31" value="2"> 同意</label>
+                    <label><input type="radio" name="q31" value="3"> 中立</label>
+                    <label><input type="radio" name="q31" value="4"> 反對</label>
+                    <label><input type="radio" name="q31" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="6">
+                <p class="q-text">33. 扶助弱勢、體諒他人，是社會正義的體現。</p>
+                <div class="options">
+                    <label><input type="radio" name="q32" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q32" value="4"> 同意</label>
+                    <label><input type="radio" name="q32" value="3"> 中立</label>
+                    <label><input type="radio" name="q32" value="2"> 反對</label>
+                    <label><input type="radio" name="q32" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="6">
+                <p class="q-text">34. 社會應依照規則與利益運行，不宜講人情。</p>
+                <div class="options">
+                    <label><input type="radio" name="q33" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q33" value="2"> 同意</label>
+                    <label><input type="radio" name="q33" value="3"> 中立</label>
+                    <label><input type="radio" name="q33" value="4"> 反對</label>
+                    <label><input type="radio" name="q33" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="6">
+                <p class="q-text">35. 道德與善意，比冰冷的邏輯更重要。</p>
+                <div class="options">
+                    <label><input type="radio" name="q34" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q34" value="4"> 同意</label>
+                    <label><input type="radio" name="q34" value="3"> 中立</label>
+                    <label><input type="radio" name="q34" value="2"> 反對</label>
+                    <label><input type="radio" name="q34" value="1"> 非常反對</label>
+                </div>
+            </div>
+
+            <!-- 維度8：市場 P / 計劃 F -->
+            <div class="section-title">維度八：自由市場 VS 公共調控</div>
+            <div class="question" data-dim="7">
+                <p class="q-text">36. 自由市場競爭，是最有效率的經濟模式。</p>
+                <div class="options">
+                    <label><input type="radio" name="q35" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q35" value="4"> 同意</label>
+                    <label><input type="radio" name="q35" value="3"> 中立</label>
+                    <label><input type="radio" name="q35" value="2"> 反對</label>
+                    <label><input type="radio" name="q35" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="7">
+                <p class="q-text">37. 國家必須介入經濟，避免貧富差距與剝削。</p>
+                <div class="options">
+                    <label><input type="radio" name="q36" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q36" value="2"> 同意</label>
+                    <label><input type="radio" name="q36" value="3"> 中立</label>
+                    <label><input type="radio" name="q36" value="4"> 反對</label>
+                    <label><input type="radio" name="q36" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="7">
+                <p class="q-text">38. 重要資源應由公共管理、統一分配。</p>
+                <div class="options">
+                    <label><input type="radio" name="q37" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q37" value="2"> 同意</label>
+                    <label><input type="radio" name="q37" value="3"> 中立</label>
+                    <label><input type="radio" name="q37" value="4"> 反對</label>
+                    <label><input type="radio" name="q37" value="5"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="7">
+                <p class="q-text">39. 政府越少干預經濟，社會發展越有活力。</p>
+                <div class="options">
+                    <label><input type="radio" name="q38" value="5"> 非常同意</label>
+                    <label><input type="radio" name="q38" value="4"> 同意</label>
+                    <label><input type="radio" name="q38" value="3"> 中立</label>
+                    <label><input type="radio" name="q38" value="2"> 反對</label>
+                    <label><input type="radio" name="q38" value="1"> 非常反對</label>
+                </div>
+            </div>
+            <div class="question" data-dim="7">
+                <p class="q-text">40. 社會公平，比市場自由更具優先性。</p>
+                <div class="options">
+                    <label><input type="radio" name="q39" value="1"> 非常同意</label>
+                    <label><input type="radio" name="q39" value="2"> 同意</label>
+                    <label><input type="radio" name="q39" value="3"> 中立</label>
+                    <label><input type="radio" name="q39" value="4"> 反對</label>
+                    <label><input type="radio" name="q39" value="5"> 非常反對</label>
+                </div>
+            </div>
+
+            <div class="btn-wrap">
+                <button onclick="calcResult()">查看測試結果</button>
+            </div>
+        </div>
+
+        <!-- 結果區 -->
+        <div id="result" class="result">
+            <h2 style="text-align:center">你的專屬思想人格</h2>
+            <div class="code-box" id="finalCode"></div>
+            <div class="chart-box">
+                <canvas id="radarChart"></canvas>
+            </div>
+            <div class="analysis" id="analysisText"></div>
+        </div>
+    </div>
+
+    <script>
+        // 8個維度對應字母
+        const dimMap = [
+            {high:"U", low:"R"}, // 0:理想U / 現實R
+            {high:"E", low:"H"}, // 1:平等E / 階層H
+            {high:"L", low:"A"}, // 2:自由L / 權威A
+            {high:"V", low:"C"}, // 3:激進V / 漸進C
+            {high:"I", low:"G"}, // 4:個人I / 集體G
+            {high:"T", low:"M"}, // 5:傳統T / 革新M
+            {high:"F", low:"N"}, // 6:情感F / 理性N
+            {high:"P", low:"F"}  // 7:市場P / 計劃F
+        ];
+
+        // 思想解析庫
+        const ideologyText = {
+            "UR": "徹底現實主義：講究實際利益、秩序與穩定，不相信脫離現實的空想，偏向法家、亞里士多德、現實政治。",
+            "UE": "平等理想派：嚮往公平社會，相信人類可以透過改造實現大同，偏向烏托邦、社會主義思想。",
+            "UH": "階層理想派：認同社會存在合理秩序與階級，同時抱有改造社會的理想，偏向柏拉圖哲學。",
+            "UL": "自由理想主義：重視個人自由，同時追求理想社會，偏向自由烏托邦、存在主義。",
+            "UA": "權威理想派：支持強力治理，並希望透過權威實現理想國，偏向集體理想主義。",
+            "UV": "激進理想者：願意用劇烈變革追求理想，偏向革命社會主義、激進烏托邦。",
+            "UC": "溫和理想者：嚮往理想但反對動盪，主張緩步邁向目標，偏向民主社會主義。",
+            "UI": "個人理想主義：以個人自由與自我實現為核心理想，偏向西方人文思想。",
+            "UG": "集體理想主義：將群體共同幸福視為最高理想，偏向共產主義、墨家思想。",
+            "UT": "傳統理想派：從古典文化中找尋理想社會範本，偏向儒家理想、古典哲學。",
+            "UM": "革新理想派：主張打破舊傳統，以全新方式建構理想社會。",
+            "UF": "人文理想主義：以道德、仁愛作為理想社會的核心，偏向儒家、墨家。",
+            "UN": "理性理想主義：以科學與邏輯建構理想國，偏向功利主義、理性哲學。",
+            "UP": "市場理想派：相信自由市場最終能帶來理想社會，偏向自由市場烏托邦。",
+            "FP": "調控理想派：主張公共分配與計畫體制實現平等理想，偏向共產、福利國家。"
+        };
+
+        function calcResult(){
+            let total = [0,0,0,0,0,0,0,0];
+            let qList = document.querySelectorAll('.question');
+            let allChecked = true;
+
+            qList.forEach(q=>{
+                let name = q.querySelector('input').name;
+                let radio = document.querySelector(`input[name="${name}"]:checked`);
+                if(!radio){
+                    allChecked = false;
+                }
+            });
+
+            if(!allChecked){
+                alert('請完成所有題目再提交！');
+                return;
+            }
+
+            for(let i=0; i<40; i++){
+                let r = document.querySelector(`input[name="q${i}"]:checked`);
+                let val = parseInt(r.value);
+                let dimIdx = parseInt(r.closest('.question').dataset.dim);
+                total[dimIdx] += val;
+            }
+
+            let code = "";
+            let rate = [];
+            for(let d=0; d<8; d++){
+                let score = total[d];
+                let avg = score / 5;
+                rate.push(avg);
+                if(avg >= 3){
+                    code += dimMap[d].high;
+                }else{
+                    code += dimMap[d].low;
+                }
+            }
+
+            document.getElementById('finalCode').innerText = code;
+
+            let mainText = "你的思想屬於多元混合風格，融合多種中西思想，不被單一主義束縛。";
+            let key = code[0]+code[1];
+            if(ideologyText[key]){
+                mainText = ideologyText[key];
+            }
+
+            let fullText = `<h3>綜合解析</h3><p>${mainText}</p>
+            <p>你的8維度傾向：</p>
+            <ul>
+                <li>1.理想/現實：${code[0]==='U'?'理想主義':'現實主義'}</li>
+                <li>2.平等/階層：${code[1]==='E'?'平等主義':'階層秩序主義'}</li>
+                <li>3.自由/權威：${code[2]==='L'?'個人自由':'權威治理'}</li>
+                <li>4.激進/漸進：${code[3]==='V'?'激進變革':'溫和漸進'}</li>
+                <li>5.個人/集體：${code[4]==='I'?'個人主義':'集體主義'}</li>
+                <li>6.傳統/革新：${code[5]==='T'?'尊崇傳統':'追求革新'}</li>
+                <li>7.情感/理性：${code[6]==='F'?'人文情感':'純理性功利'}</li>
+                <li>8.市場/調控：${code[7]==='P'?'自由市場':'公共調控'}</li>
+            </ul>`;
+            document.getElementById('analysisText').innerHTML = fullText;
+
+            document.getElementById('result').style.display = 'block';
+            drawRadar(rate);
+        }
+
+        function drawRadar(data){
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            if(window.radarChart) window.radarChart.destroy();
+            window.radarChart = new Chart(ctx,{
+                type:'radar',
+                data:{
+                    labels:["理想","平等","自由","激進","個人","傳統","情感","市場"],
+                    datasets:[{
+                        label:"你的思想傾向分數",
+                        data:data,
+                        backgroundColor:'rgba(52,152,219,0.2)',
+                        borderColor:'rgba(52,152,219,1)',
+                        pointBackgroundColor:'#3498db'
+                    }]
+                },
+                options:{
+                    scales:{
+                        r:{min:1,max:5}
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
