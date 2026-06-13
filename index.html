@@ -13,9 +13,6 @@
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:"微軟正黑體",sans-serif;}
         body{background:#f4f6f9;color:#333;line-height:1.6;padding:20px;}
-        /* Compatibility enhancements */
-        html,body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-        :root { scrollbar-color: rgba(52,152,219,0.6) #f4f6f9; scrollbar-width: thin; }
         .container{max-width:900px;margin:0 auto;background:#fff;padding:30px;border-radius:12px;box-shadow:0 2px 15px #0002;}
         h1{text-align:center;color:#2c3e50;margin-bottom:10px;}
         .desc{text-align:center;color:#666;margin-bottom:30px;}
@@ -33,6 +30,7 @@
         .result{display:none;margin-top:40px;padding:25px;background:#ecf0f1;border-radius:10px;}
         .code-box{text-align:center;font-size:24px;font-weight:bold;color:#e74c3c;margin:15px 0;letter-spacing:4px;}
         .chart-box{width:100%;max-width:600px;margin:30px auto;}
+        .chart-box canvas{width:100%;height:400px;display:block;}
         .analysis{margin-top:20px;padding:20px;background:#fff;border-radius:8px;}
         .hide{display:none;}
     </style>
@@ -477,13 +475,16 @@
             <h2 style="text-align:center">你的專屬思想人格</h2>
             <div class="code-box" id="finalCode"></div>
             <div class="chart-box">
-                <canvas id="radarChart"></canvas>
+                <canvas id="radarCanvas"></canvas>
             </div>
+            <div id="versionMarker" class="version-marker"></div>
             <div class="analysis" id="analysisText"></div>
         </div>
     </div>
 
     <script>
+        const pageDebugVersion = '2026-06-13-v1';
+        let radarChartInstance = null;
         // 8個維度對應字母
         const dimMap = [
             {high:"U", low:"R"}, // 0:理想U / 現實R
@@ -516,6 +517,8 @@
         };
 
         function calcResult(){
+            console.log('calcResult called', { pageDebugVersion, ChartLoaded: typeof Chart !== 'undefined', windowRadarChart: window.radarChart });
+            document.getElementById('versionMarker').textContent = '頁面版本：' + pageDebugVersion;
             let total = [0,0,0,0,0,0,0,0];
             let qList = document.querySelectorAll('.question');
             let allChecked = true;
@@ -580,60 +583,42 @@
         }
 
         function drawRadar(data){
-            console.log('drawRadar called with data:', data);
-            const ctxEl = document.getElementById('radarChart');
+            console.log('drawRadar start', { data, ChartLoaded: typeof Chart !== 'undefined', windowRadarChart: window.radarChart });
+            const ctxEl = document.getElementById('radarCanvas');
             if(!ctxEl){
-                console.error('Canvas element not found');
+                document.querySelector('.chart-box').innerHTML = '<div style="text-align:center;color:#999;padding:20px">找不到圖表畫布元素，請稍候重新整理頁面。</div>';
                 return;
             }
             if(typeof Chart === 'undefined'){
-                console.error('Chart.js not loaded');
                 document.querySelector('.chart-box').innerHTML = '<div style="text-align:center;color:#999;padding:20px">圖表載入失敗，請稍候重新整理頁面。</div>';
                 return;
             }
-            try{
-                const ctx = ctxEl.getContext('2d');
-                if(!ctx) throw new Error('Failed to get canvas context');
-                
-                if(window.radarChart){
-                    window.radarChart.destroy();
-                }
-                
-                // Ensure canvas has dimensions
-                ctxEl.style.display = 'block';
-                ctxEl.width = ctxEl.offsetWidth || 400;
-                ctxEl.height = ctxEl.offsetWidth || 400;
-                
-                window.radarChart = new Chart(ctx,{
-                    type:'radar',
-                    data:{
-                        labels:["理想","平等","自由","激進","個人","傳統","情感","市場"],
-                        datasets:[{
-                            label:"你的思想傾向分數",
-                            data:data,
-                            backgroundColor:'rgba(52,152,219,0.2)',
-                            borderColor:'rgba(52,152,219,1)',
-                            pointBackgroundColor:'#3498db',
-                            tension:0.4
-                        }]
-                    },
-                    options:{
-                        responsive:true,
-                        maintainAspectRatio:true,
-                        scales:{
-                            r:{
-                                min:1,
-                                max:5,
-                                ticks:{stepSize:1}
-                            }
-                        }
-                    }
-                });
-                console.log('Chart created successfully');
-            }catch(err){
-                console.error('Error drawing radar chart:', err);
-                document.querySelector('.chart-box').innerHTML = '<div style="text-align:center;color:#999;padding:20px">圖表載入失敗：' + err.message + '</div>';
+            const ctx = ctxEl.getContext('2d');
+            if(!ctx){
+                document.querySelector('.chart-box').innerHTML = '<div style="text-align:center;color:#999;padding:20px">無法建立畫布語境，請稍候重新整理頁面。</div>';
+                return;
             }
+            if(radarChartInstance && typeof radarChartInstance.destroy === 'function'){
+                radarChartInstance.destroy();
+            }
+            radarChartInstance = new Chart(ctx,{
+                type:'radar',
+                data:{
+                    labels:["理想","平等","自由","激進","個人","傳統","情感","市場"],
+                    datasets:[{
+                        label:"你的思想傾向分數",
+                        data:data,
+                        backgroundColor:'rgba(52,152,219,0.2)',
+                        borderColor:'rgba(52,152,219,1)',
+                        pointBackgroundColor:'#3498db'
+                    }]
+                },
+                options:{
+                    scales:{
+                        r:{min:1,max:5}
+                    }
+                }
+            });
         }
     </script>
     <script>
