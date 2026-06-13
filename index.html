@@ -13,6 +13,9 @@
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:"微軟正黑體",sans-serif;}
         body{background:#f4f6f9;color:#333;line-height:1.6;padding:20px;}
+        /* Compatibility enhancements */
+        html,body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        :root { scrollbar-color: rgba(52,152,219,0.6) #f4f6f9; scrollbar-width: thin; }
         .container{max-width:900px;margin:0 auto;background:#fff;padding:30px;border-radius:12px;box-shadow:0 2px 15px #0002;}
         h1{text-align:center;color:#2c3e50;margin-bottom:10px;}
         .desc{text-align:center;color:#666;margin-bottom:30px;}
@@ -474,7 +477,7 @@
             <h2 style="text-align:center">你的專屬思想人格</h2>
             <div class="code-box" id="finalCode"></div>
             <div class="chart-box">
-                <canvas id="radarChart"></canvas>
+                <canvas id="radarChart" role="img" aria-label="雷達圖：顯示 8 維度思想傾向" aria-describedby="analysisText"></canvas>
             </div>
             <div class="analysis" id="analysisText"></div>
         </div>
