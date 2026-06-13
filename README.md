@@ -40,4 +40,8 @@ git push origin main:gh-pages
 - 把 `CNAME` 檔案加入 repo（請提供欲綁定的網域）。
 - 幫你微調樣式、提供不同尺寸的 favicon 或加入社群分享預覽圖（Open Graph image）。
 
-目前部署網址： https://lrena-shuiyue.github.io/Ultimate-Ideology-Test/
+目前預設部署網址：
+
+- https://lrena-shuiyue.github.io/Ultimate-Ideology-Test/
+
+> 若你希望恢復自訂網域，請提供 `www.ultimateideologytest.com` 的 DNS 設定，我可以幫你建立 `CNAME` 並同步修正部署。 
