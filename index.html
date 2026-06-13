@@ -580,31 +580,60 @@
         }
 
         function drawRadar(data){
+            console.log('drawRadar called with data:', data);
             const ctxEl = document.getElementById('radarChart');
+            if(!ctxEl){
+                console.error('Canvas element not found');
+                return;
+            }
             if(typeof Chart === 'undefined'){
+                console.error('Chart.js not loaded');
                 document.querySelector('.chart-box').innerHTML = '<div style="text-align:center;color:#999;padding:20px">圖表載入失敗，請稍候重新整理頁面。</div>';
                 return;
             }
-            const ctx = ctxEl.getContext('2d');
-            if(window.radarChart) window.radarChart.destroy();
-            window.radarChart = new Chart(ctx,{
-                type:'radar',
-                data:{
-                    labels:["理想","平等","自由","激進","個人","傳統","情感","市場"],
-                    datasets:[{
-                        label:"你的思想傾向分數",
-                        data:data,
-                        backgroundColor:'rgba(52,152,219,0.2)',
-                        borderColor:'rgba(52,152,219,1)',
-                        pointBackgroundColor:'#3498db'
-                    }]
-                },
-                options:{
-                    scales:{
-                        r:{min:1,max:5}
-                    }
+            try{
+                const ctx = ctxEl.getContext('2d');
+                if(!ctx) throw new Error('Failed to get canvas context');
+                
+                if(window.radarChart){
+                    window.radarChart.destroy();
                 }
-            });
+                
+                // Ensure canvas has dimensions
+                ctxEl.style.display = 'block';
+                ctxEl.width = ctxEl.offsetWidth || 400;
+                ctxEl.height = ctxEl.offsetWidth || 400;
+                
+                window.radarChart = new Chart(ctx,{
+                    type:'radar',
+                    data:{
+                        labels:["理想","平等","自由","激進","個人","傳統","情感","市場"],
+                        datasets:[{
+                            label:"你的思想傾向分數",
+                            data:data,
+                            backgroundColor:'rgba(52,152,219,0.2)',
+                            borderColor:'rgba(52,152,219,1)',
+                            pointBackgroundColor:'#3498db',
+                            tension:0.4
+                        }]
+                    },
+                    options:{
+                        responsive:true,
+                        maintainAspectRatio:true,
+                        scales:{
+                            r:{
+                                min:1,
+                                max:5,
+                                ticks:{stepSize:1}
+                            }
+                        }
+                    }
+                });
+                console.log('Chart created successfully');
+            }catch(err){
+                console.error('Error drawing radar chart:', err);
+                document.querySelector('.chart-box').innerHTML = '<div style="text-align:center;color:#999;padding:20px">圖表載入失敗：' + err.message + '</div>';
+            }
         }
     </script>
     <script>
